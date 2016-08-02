@@ -65,7 +65,7 @@ createTree <- function(dataSet){
     vals <- unique(dataSet[,bestFeature])
     for(v in vals){
         # subLabels <- names(dataSet)[-c(bestFeature, ncol(dataSet))]
-        print(splitDataSet(dataSet,bestFeature,v))
+        # print(splitDataSet(dataSet,bestFeature,v))
         myTree[[bestFeatureName]][[v]] <- createTree(dataSet=splitDataSet(dataSet,bestFeature,v))
     }
     return(myTree)
