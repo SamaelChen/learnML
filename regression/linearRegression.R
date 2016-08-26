@@ -1,8 +1,10 @@
 attach(freeny)
 
-linearReg <- function(dataSet, targetIndex){
+linearReg <- function(dataSet, targetIndex, keepConstant=T){
     X <- dataSet[,-targetIndex]
-    X <- cbind(X, intercept=1)
+    if(keepConstant==T){
+        X <- cbind(X, intercept=1)
+    }
     X <- as.matrix(X)
     w <- solve(t(X) %*% X) %*% t(X) %*% dataSet[,targetIndex]
     return(w)
