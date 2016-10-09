@@ -1,10 +1,10 @@
 data <- read.table('/media/samael/Samael/CVM/1、K-means学习/kmeans', header=F, sep='\t')
 
 #calculate Euclidean distance
-calcDist <- function(x, y, n=2){
+calcDist <- function(x, y){
   x <- as.matrix(x)
   y <- as.numeric(y)
-  return(sqrt(rowSums((t(t(x) - y))^n)))
+  return(sqrt(rowSums((t(t(x) - y))^2)))
 }
 
 initCentroids <- function(data, k, randomSeed=1234){
@@ -24,7 +24,7 @@ initCentroids <- function(data, k, randomSeed=1234){
   return(centroids)
 }
 
-k_means <- function(data, k, maxIteration=100, randomSeed=1234, threshold=0.001, n=2){
+k_means <- function(data, k, maxIteration=100, randomSeed=1234, threshold=0.001){
   centroids <- initCentroids(data, k=k, randomSeed=randomSeed)
   data[,ncol(data)+1] <- 'unknow'
   data[,ncol(data)+1] <- Inf
@@ -39,7 +39,7 @@ k_means <- function(data, k, maxIteration=100, randomSeed=1234, threshold=0.001,
   while((iter <= maxIteration) & (totalDiff < k)){
     centroids <- centroidsNew
     for(i in 1:k){
-      dist <- calcDist(data[,!(names(data) %in% c('distance', 'cluster'))], centroids[i, names(centroids)!='cluster'], n=n)
+      dist <- calcDist(data[,!(names(data) %in% c('distance', 'cluster'))], centroids[i, names(centroids)!='cluster'])
       index <- which(data$distance > dist)
       data[index, 'distance'] <- dist[index]
       if(i==1){
